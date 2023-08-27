@@ -15,13 +15,13 @@ class Robinhood_Controller:
   def set_interval(self, i):
     self.interval = i * 60
   
-  def login(self):
+  def login(self, uname=None, pwd=None):
     payload = {
       'grant_type': 'password',
       'scope': 'internal',
       'client_id': 'your_client_id',
-      'username': self.username,
-      'password': self.password
+      'username': uname or self.username,
+      'password': pwd or self.password
     }
     
     response = requests.post(self.login_url, data=payload)
