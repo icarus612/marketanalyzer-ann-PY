@@ -1,7 +1,9 @@
-
 import requests
+from alpha_vantage.timeseries import TimeSeries
+import matplotlib.pyplot as plt
 
-class Data_Integrator:
+
+class Alphavantage:
   def __init__(self, api_key, function='TIME_SERIES_DAILY', output_size='full', interval=5, default_symbol="GOOG"):
     self.base_api = 'https://www.alphavantage.co/query'
     self.api_key = api_key
@@ -16,18 +18,33 @@ class Data_Integrator:
       if key in new_params.keys():
         current_params[key] = new_params[key] 
       
-  def query_data(self, symbol=None):
+  def get_ticker_data(self, symbol=None):
     params = {
-      "symbol": symbol or default_symbol,
+      "symbol": symbol or self.default_symbol,
       "function": self.function,
       "interval": str(self.interval) + "min",
-      "apikey": self.apikey,
+      "apikey": self.api_key,
       "outputsize": self.output_size
     }
-    requests.get(self.base_api, params=params)
+    response = requests.get(self.base_api, params=params)
     if response.status_code == 200:
-      return response.data()
+      return response.json()
     else:
       print("ERROR: ", response.status_code)
       
-      
+  def time_series(self, output_format='pandas'):
+    return TimeSeries(key=self.api_key, output_format=output_format)
+  
+  def get_daily_ts(self, symbol=None):
+    ts = self.time_series(symbol)
+    data, _ = ts.get_daily(symbol=symbol or self.default_symbol, outputsize='compact')
+
+    # Print the first few rows of data to see its structure
+    plt.figure(figsize=(10, 6))
+    plt.plot(data.index, data['4. close'], label='Closing Price', color='blue')
+    plt.title(f'{symbol} Stock Closing Prices')
+    plt.xlabel('Date')
+    plt.ylabel('Price')
+    plt.legend()
+    plt.show()
+    

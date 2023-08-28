@@ -1,12 +1,12 @@
 import requests
 
-class Robinhood_Controller:
-  def __init__(self,  username, password, interval=5, current_symbol="GOOG"):
+class Robinhood:
+  def __init__(self,  username, password, interval=5, default_symbol="GOOG"):
     self.login_url = 'https://api.robinhood.com/oauth2/token/'
     self.account_url = 'https://api.robinhood.com/accounts/'
     self.username = username
     self.password = password
-    self.current_symbol = current_symbol
+    self.current_symbol = default_symbol
     self.interval = interval * 60
     self.account_data = {}
     self.access_token = False
