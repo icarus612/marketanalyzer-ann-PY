@@ -36,8 +36,9 @@ class Alphavantage:
     return TimeSeries(key=self.api_key, output_format=output_format)
   
   def get_daily_ts(self, symbol=None):
-    ts = self.time_series(symbol)
-    data, _ = ts.get_daily(symbol=symbol or self.default_symbol, outputsize='compact')
+    ts = self.time_series()
+    s = symbol or self.default_symbol
+    data = ts.get_daily(symbol=s, outputsize='compact')
 
     # Print the first few rows of data to see its structure
     plt.figure(figsize=(10, 6))
