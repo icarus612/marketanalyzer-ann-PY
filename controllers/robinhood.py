@@ -28,8 +28,9 @@ class Robinhood:
       'password': pwd or self.password
     }
     
-    response = requests.post(self.login_url, data=payload)
+    response = requests.post(self.login_url, data=payload) 
     data = response.json()
+    print(data)
     self.access_token = data['access_token']
     self.account_data = self.get_account_data()
 
