@@ -1,7 +1,6 @@
 import requests
 import robin_stocks.robinhood as robinhood
 import pandas as pd
-from os import environ 
 
 class Robinhood:
   def __init__(self,  username, password, interval=5, default_symbol="GOOG"):
@@ -11,9 +10,10 @@ class Robinhood:
     self.password = password
     self.current_symbol = default_symbol
     self.interval = interval * 60
-    self.account_data = {}
+    self.account_data = self.get_account_data()
     self.access_token = False
     self.login()
+    
     
   def set_interval(self, i):
     self.interval = i * 60
@@ -36,15 +36,14 @@ class Robinhood:
         'Authorization': f'Bearer {self.access_token}'
     }
         
-    self.account_data = requests.get(self.account_url, headers=headers).json()
+    return requests.get(self.account_url, headers=headers).json()
     
 
   def get_current_positions(self):
-      return robinhood.account.build_holdings()    
+    return robinhood.account.build_holdings()    
   
   def get_current_cash_position(self):
-
-        return float(robinhood.profiles.load_account_profile(info="buying_power"))
+    return float(robinhood.profiles.load_account_profile(info="buying_power"))
 
   def has_sufficient_funds_available(self, amount_in_dollars):
       if not amount_in_dollars:
