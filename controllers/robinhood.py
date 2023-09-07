@@ -10,8 +10,9 @@ class Robinhood:
     self.password = password
     self.current_symbol = default_symbol
     self.interval = interval * 60
-    self.account_data = self.get_account_data()
     self.access_token = False
+    self.account_data = {}
+
     self.login()
     
     
@@ -30,12 +31,12 @@ class Robinhood:
     response = requests.post(self.login_url, data=payload)
     data = response.json()
     self.access_token = data['access_token']
+    self.account_data = self.get_account_data()
 
   def get_account_data(self):
     headers = {
         'Authorization': f'Bearer {self.access_token}'
     }
-        
     return requests.get(self.account_url, headers=headers).json()
     
 
