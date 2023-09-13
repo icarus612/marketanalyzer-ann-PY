@@ -8,6 +8,4 @@ Alpha = Alphavantage(env['ALPHAVANTAGE_API'])
 RH_Bot = Robinhood(env['RH_UNAME'], env['RH_PASSWORD'])
 Alpha.get_daily_ts()
 
-print(RH_Bot.account_data)
-
 

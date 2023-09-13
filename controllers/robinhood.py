@@ -30,9 +30,13 @@ class Robinhood:
     
     response = requests.post(self.login_url, data=payload) 
     data = response.json()
-    print(data)
-    self.access_token = data['access_token']
-    self.account_data = self.get_account_data()
+    try: 
+      self.access_token = data['access_token']
+      self.account_data = self.get_account_data()
+    except Exception as e:
+      print(e)
+      
+      
 
   def get_account_data(self):
     headers = {
