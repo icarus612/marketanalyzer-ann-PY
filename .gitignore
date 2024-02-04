@@ -44,12 +44,4 @@ venv.bak/
 # Ignore code-workspaces
 *.code-workspace
 
-# End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocode
-
-
-
-
-
-
- 
-BUILD
+# End of https://www.toptal.com/developers/gitignore/api/python,visualstudiocodeBUILD
